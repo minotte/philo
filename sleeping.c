@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear.c                                            :+:      :+:    :+:   */
+/*   sleeping.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nminotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/08 15:31:56 by nminotte          #+#    #+#             */
-/*   Updated: 2023/05/15 16:41:46 by nminotte         ###   ########.fr       */
+/*   Created: 2023/05/11 11:16:28 by nminotte          #+#    #+#             */
+/*   Updated: 2023/05/15 11:39:47 by nminotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/philo.h"
-#include <stdlib.h>
 
-void	ft_clear(t_data_init *data, t_philo *philo)
+void	*sleeping(t_philo *phi)
 {
 	int	i;
 
-	i = 0;
-	if (data->mu_fork)
-	{
-		if (pthread_mutex_destroy(data->mu_fork) != 0)
-			printf("error on mutex_destroy\n");
-	}
-	if (philo)
-		free(philo);
-	if (data && data->rout_phil)
-		free(data->rout_phil);
+	i = phi->index;
+	// printf("%d is last eat : %ld \n", phi->index, phi->last_eat);
+	// phi->ts = ft_time();
+	// phi->ts = phi->last_eat;
+	ft_msg_philo(phi->te, phi, SLEEP);
+	phi->te += time_to_spend(phi->data->time_sleep, phi);
+	// ft_msg_philo(phi->ts, phi, 2);
+	ft_msg_philo(phi->te, phi, 3);
 }

@@ -1,0 +1,10 @@
+
+int number_of_philosophers
+int time_to_die 
+time_to_eat 
+time_to_sleep
+
+nb_fork == number_of_philosophers
+
+si arg = vide ou lettre mettre en chiffre 0?
+
