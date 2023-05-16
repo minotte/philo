@@ -6,7 +6,7 @@
 /*   By: nminotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 10:42:27 by nminotte          #+#    #+#             */
-/*   Updated: 2023/05/15 18:33:10 by nminotte         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:00:42 by nminotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "./include/philo.h"
@@ -33,7 +33,7 @@ long int	time_to_spend(long int time_spend, t_philo *philo)
 
 	time_zero = ft_time();
 	time = ft_time() - time_zero;
-	while (time < time_spend && (philo->is_dead == 0))
+	while (time < time_spend && (philo->data->is_dead == 0))
 		time = ft_time() - time_zero;
 	// printf("time T : %ld", time_t);
 	return (time);

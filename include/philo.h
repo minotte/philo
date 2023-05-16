@@ -6,7 +6,7 @@
 /*   By: nminotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 13:17:02 by nminotte          #+#    #+#             */
-/*   Updated: 2023/05/15 19:39:21 by nminotte         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:57:03 by nminotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ typedef struct s_philo
 	int				dinner_nbr;
 	long int		last_eat;
 	t_data_init		*data;
-	int				is_dead;
-}	t_philo;
+	}	t_philo;
 
 struct s_data_init
 {
@@ -60,19 +59,13 @@ struct s_data_init
 	pthread_mutex_t	write;
 	pthread_mutex_t	*mu_fork;
 	pthread_mutex_t	dead;
+	int				is_dead;
 	t_philo			*phi;
 };
-/*
-typedef struct s_mutex
-{
-	pthread_mutex_t	mutex_fork;
-	pthread_mutex_t	mutex_sleep;
-	pthread_mutex_t	mutex_think;
-}	t_mutex;
-*/
+
 int			main(int argc, char **argv);
 void		print_arg_error(void);
-void		ft_msg_philo(long int time_ms, t_philo *philo, int status);
+void		ft_msg_philo(long int time, t_philo *phi, int status);
 int			error_not_number(int argc, char **argv);
 int			ft_philo_arg(int argc, char **argv, t_data_init *data);
 long		ft_atoi(const char *str);

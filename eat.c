@@ -6,7 +6,7 @@
 /*   By: nminotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:39:21 by nminotte          #+#    #+#             */
-/*   Updated: 2023/05/15 18:48:54 by nminotte         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:59:21 by nminotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "include/philo.h"
@@ -19,8 +19,8 @@ void	eating(t_philo *phi)
 	int	i;
 
 	i = phi->index;
-	printf("time_start  : %ld\n", phi->data->time_start );
-	if (phi->is_dead == 0)
+	// printf("time_start  : %ld\n", phi->data->time_start );
+	if (phi->data->is_dead == 0)
 	{
 		pthread_mutex_lock(&phi->data->mu_fork[i]);
 		if (i == (phi->data->nbr_philos - 1))

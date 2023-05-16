@@ -6,7 +6,7 @@
 /*   By: nminotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 13:23:38 by nminotte          #+#    #+#             */
-/*   Updated: 2023/05/15 19:39:17 by nminotte         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:02:55 by nminotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,9 @@ void	*ft_philo(t_data_init *data, t_philo *philo)
 			}
 			i++;
 		}
-		printf("time_start  : %ld\n", data->time_start );
 		err = pthread_create(data->all_alive, NULL, (void *)&all_is_alive, data);
-		printf("ceci time_start  : %ld\n", data->time_start );
-
 		if (err != 0)
-			{
-				printf("error on creating of a thread \n");
-			}
-
+			printf("error on creating of a thread \n");
 		i = 0;
 		while (i < data->nbr_philos)
 		{
@@ -61,7 +55,7 @@ void	*ft_philo(t_data_init *data, t_philo *philo)
 			}
 			i++;
 		}	
-		// if ((pthread_join(data->all_alive, NULL)) != 0)
+		if ((pthread_join(*data->all_alive, NULL)) != 0)
 			printf("error thread \n");
 
 	}
@@ -112,7 +106,6 @@ t_philo	*init_phi(t_data_init *data)
 		philo[i].data = data;
 		philo[i].last_eat = 0;
 		philo[i].ts = 0;
-		philo[i].is_dead = 0;
 		philo[i].te = 0;
 		i++;
 	}
@@ -126,8 +119,9 @@ int	main(int argc, char **argv)
 	int			ret;
 
 	data.time_start = ft_time();
-	printf("time_t : %ld\n", ft_time());
-	printf("time_start  : %ld\n", data.time_start);
+	data.is_dead = 0;
+	// printf("time_t : %ld\n", ft_time());
+	// printf("time_start  : %ld\n", data.time_start);
 
 	ret = parsing(argc, argv, &data);
 	if (ret == 0)

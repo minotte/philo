@@ -6,7 +6,7 @@
 /*   By: nminotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 10:10:29 by nminotte          #+#    #+#             */
-/*   Updated: 2023/05/15 19:39:25 by nminotte         ###   ########.fr       */
+/*   Updated: 2023/05/16 18:36:12 by nminotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,36 +19,55 @@ void	*all_is_alive(void *arg)
 	long int	time_n;
 	int			i;
 
-
 	data = arg;
 	usleep(1500);
-	printf("TEST f: %d\n", data->time_die);
-	printf("re time_start  : %ld\n", data->time_start );
-	i = 0;
-	while (1)
+	while (data->is_dead == 0)
 	{
-		// time_n = what_time(data->time_start);
-		// printf("time_t : %ld\n", ft_time()  );
-		// time_n = ft_time() - data->time_start;
-		printf("irrere time_start  : %ld\n", data->time_start );
-		// printf("time_n : %ld\n", time_n );
-		// printf("%d time_last eat : %ld\n", data->phi->index, data->phi->last_eat);
-		/*pthread_mutex_lock(&data->dead);
-		if (data->phi->is_dead == 1)
+		i = 0;
+		time_n = what_time(data->time_start);
+		pthread_mutex_lock(&data->dead);
+		while (i < data->nbr_philos)
 		{
-			break;
+		// time_n = what_time(data->time_start);
+			// printf("philo numero : %d\n", data->phi[i].index);
+			// printf("%d time_last eat : %ld\n", data->phi[i].index, data->phi->last_eat);printf("irrere time_start  : %ld\n", data->time_start );
+
+			time_n = what_time(data->time_start);
+			// printf("time_n : %ld\n", time_n );
+
+			// if (data->is_dead == 1)
+			// {
+				// printf("-----------test------------------------ \n");
+				// break ;
+			// }
+			// printf("what time  : %ld\n", time_n - data->phi[i].last_eat );
+			if (data->time_die < (time_n - data->phi[i].last_eat))
+			{	
+				pthread_mutex_lock(&data->write);
+				printf("%s %ld	%d is dead%s \n", RED, time_n, data->phi->index + 1, CE);
+				// ft_msg_philo(time_n, data->phi, DEAD);
+				data->is_dead = 1;
+				// pthread_mutex_unlock(&data->write);
+				// pthread_mutex_unlock(&data->dead);
+				// printf("is_dead : %d \n", data->phi[i].is_dead);
+			break ;
+			}
+
+			i++;
+			if (data->is_dead == 1)
+			{
+				// printf("-----------test------------------------ \n");
+				// pthread_mutex_unlock(&data->dead);
+
+				return (NULL);
+			}
 		}
-		if ((data->time_die < time_n - data->phi->last_eat))
-		{	
-			pthread_mutex_lock(&data->write);
-			ft_msg_philo(time_n, data->phi, DEAD);
-			data->phi->is_dead = 1;
-			pthread_mutex_unlock(&data->write);
-			pthread_mutex_unlock(&data->dead);
-		}*/
-		break;
+
+	 pthread_mutex_unlock(&data->dead);
+// printf("-----------test------------------------ \n");
 	}
-	// pthread_mutex_unlock(&data->dead);
+	 pthread_mutex_unlock(&data->dead);
+	 // printf("fin \n");
 }
 
 void	*rout_phi_one(void *arg)
@@ -57,7 +76,7 @@ void	*rout_phi_one(void *arg)
 
 	phi = arg;
 	ft_msg_philo(0, phi, FORK);
-	// is_dead(phi);
+	all_is_alive(phi);
 }
 
 void	*routine_philo(void *arg)
@@ -67,19 +86,23 @@ void	*routine_philo(void *arg)
 
 	phi = arg;
 	i = phi->index;
-	ft_msg_philo(0, phi, THINK);
 	if (phi->index % 2 != 0)
+	{
+		ft_msg_philo(0, phi, THINK);
 		usleep(500);
+	}
 	// phi->is_dead == is_dead(phi);
-	while (phi->is_dead == 0 && (phi->data->must_eat_time < 0
+	while (phi->data->is_dead == 0 && (phi->data->must_eat_time < 0
 			|| phi->dinner_nbr < phi->data->must_eat_time))
 	{
-		// pthread_mutex_lock(&phi->data->dead);
-		if (phi->is_dead == 0)
+		pthread_mutex_lock(&phi->data->dead);
+		if (phi->data->is_dead == 0)
 		{
-			// pthread_mutex_unlock(&phi->data->dead);
+			pthread_mutex_unlock(&phi->data->dead);
 			eating(phi);
-			sleeping(phi);
+			sleeping(phi);	
+			// ft_msg_philo(phi->te, phi, THINK);
+
 			// phi->is_dead == is_dead(phi);
 		}
 		else
@@ -88,4 +111,5 @@ void	*routine_philo(void *arg)
 			return (NULL);
 		}
 	}
+	return (NULL);
 }
