@@ -43,7 +43,7 @@ void	*ft_philo(t_data_init *data, t_philo *philo)
 			i++;
 		}
 		printf("time_start  : %ld\n", data->time_start );
-		err = pthread_create(data->all_alive, NULL, (void *)&all_is_alive, &data);
+		err = pthread_create(data->all_alive, NULL, (void *)&all_is_alive, data);
 		printf("ceci time_start  : %ld\n", data->time_start );
 
 		if (err != 0)
