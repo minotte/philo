@@ -19,13 +19,13 @@ void	ft_msg_philo(long int time_ms, t_philo *philo, int status)
 	pthread_mutex_lock(&philo->data->write);
 	time_ms = what_time(philo->data->time_start);
 	if (status == 0)
-		printf("%s %ld	%d has taken a fork %s \n", GREEN, time_ms, philo->index, CE);
+		printf("%s %ld	%d has taken a fork %s \n", GREEN, time_ms, philo->index + 1, CE);
 	if (status == 1)
-		printf("%s %ld	%d is eating %s\n", ORANGE, time_ms, philo->index, CE);
+		printf("%s %ld	%d is eating %s\n", ORANGE, time_ms, philo->index + 1, CE);
 	if (status == 2)
-		printf("%s %ld	%d is sleeping %s \n", BLUE, time_ms, philo->index, CE);
+		printf("%s %ld	%d is sleeping %s \n", BLUE, time_ms, philo->index + 1, CE);
 	if (status == 3)
-		printf("%s %ld	%d is thinking %s \n", YELLOW, time_ms, philo->index, CE);
+		printf("%s %ld	%d is thinking %s \n", YELLOW, time_ms, philo->index + 1, CE);
 	pthread_mutex_unlock(&philo->data->write);
 }
 
