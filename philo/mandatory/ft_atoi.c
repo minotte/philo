@@ -6,10 +6,10 @@
 /*   By: nminotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:54:46 by nminotte          #+#    #+#             */
-/*   Updated: 2023/05/05 17:56:10 by nminotte         ###   ########.fr       */
+/*   Updated: 2023/05/17 10:34:12 by nminotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "include/philo.h"
+#include "../include/philo.h"
 
 static long	ft_numberint(const char *str, long value, int i)
 {

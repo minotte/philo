@@ -6,7 +6,7 @@
 /*   By: nminotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 13:17:02 by nminotte          #+#    #+#             */
-/*   Updated: 2023/05/16 16:57:03 by nminotte         ###   ########.fr       */
+/*   Updated: 2023/06/06 10:42:33 by nminotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,22 @@
 # include <stdlib.h>
 
 # define CE		"\e[0m"
-# define YELLOW	"\e[33m"
-# define ORANGE	"\e[35m"
-# define RED	"\e[91m"
-# define GREEN	"\e[32m"
-# define BLUE	"\e[94m"
+# define Y	"\e[33m"
+# define O	"\e[35m"
+# define R	"\e[91m"
+# define G	"\e[32m"
+# define B	"\e[94m"
 
 enum {
 	FORK = 0,
 	EAT,
 	SLEEP,
 	THINK,
-	DEAD,
 };
 
-typedef struct s_data_init	t_data_init;
-typedef struct s_philo
-{
-	int				index;
-	long int		ts;
-	long int		te;
-	int				dinner_nbr;
-	long int		last_eat;
-	t_data_init		*data;
-	}	t_philo;
-
-struct s_data_init
+typedef struct s_data_init
 {
 	pthread_t		*rout_phil;
-	pthread_t		*all_alive;
 	int				nbr_philos;
 	int				time_die;
 	int				time_eat;
@@ -60,25 +47,36 @@ struct s_data_init
 	pthread_mutex_t	*mu_fork;
 	pthread_mutex_t	dead;
 	int				is_dead;
-	t_philo			*phi;
-};
+	pthread_mutex_t	all_are_full;
+	int				nbr_meal;
+	int				finish;
+}	t_data_init;
+
+typedef struct s_philo
+{
+	int				index;
+	int				dinner_nbr;
+	long int		last_eat;
+	pthread_mutex_t	l_eat;
+	t_data_init		*data;
+}	t_philo;
 
 int			main(int argc, char **argv);
-void		print_arg_error(void);
-void		ft_msg_philo(long int time, t_philo *phi, int status);
-int			error_not_number(int argc, char **argv);
-int			ft_philo_arg(int argc, char **argv, t_data_init *data);
+long int	get_time(void);
+int			parsing(int argc, char **argv, t_data_init *data);
 long		ft_atoi(const char *str);
 void		ft_putendl_fd(char *s, int fd);
-void		ft_clear(t_data_init *data, t_philo *philo);
-void		*routine_philo(void *arg);
-void		*rout_phi_one(void *arg);
-int			parsing(int argc, char **argv, t_data_init *data);
-long int	ft_time(void);
-long int	time_to_spend(long int time_spend, t_philo *philo);
-void		eating(t_philo *phi);
+void		print_arg_error(void);
+int			init_phi(t_philo *phi, t_data_init *data);
+int			init_data(t_data_init *data);
 long int	what_time(long int time_z);
-void		*sleeping(t_philo *phi);
-void		*all_is_alive(void *arg);
+void		ft_clear(t_data_init *data, t_philo *philo);
+void		ft_msg_philo(t_philo *phi, int status);
+void		*r_philo(void *arg);
+void		time_to_spend(long int t_spend, t_data_init *data);
+int			wrong_malloc(void *arg);
+void		eat(t_philo *phi);
+void		ft_philo(t_data_init *d, t_philo *phi);
+void		ft_philo_one(t_data_init *data, t_philo *phi);
 
 #endif

@@ -6,15 +6,15 @@
 /*   By: nminotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 10:42:27 by nminotte          #+#    #+#             */
-/*   Updated: 2023/05/16 17:00:42 by nminotte         ###   ########.fr       */
+/*   Updated: 2023/06/05 19:25:51 by nminotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "./include/philo.h"
+#include "../include/philo.h"
 
-long int	ft_time(void)
+long int	get_time(void)
 {
 	long long int		time;
-	struct timeval	c_time;
+	struct timeval		c_time;
 
 	time = 0;
 	if (gettimeofday(&c_time, NULL) == 0)
@@ -26,17 +26,19 @@ long int	ft_time(void)
 	return (0);
 }
 
-long int	time_to_spend(long int time_spend, t_philo *philo)
+void	time_to_spend(long int t_spend, t_data_init *data)
 {
-	long long int	time_zero;
 	long int	time;
 
-	time_zero = ft_time();
-	time = ft_time() - time_zero;
-	while (time < time_spend && (philo->data->is_dead == 0))
-		time = ft_time() - time_zero;
-	// printf("time T : %ld", time_t);
-	return (time);
+	time = get_time();
+	while ((get_time() - time) < t_spend)
+	{
+		usleep(10);
+		pthread_mutex_lock(&data->dead);
+		if (data->is_dead == 1)
+			t_spend = 0;
+		pthread_mutex_unlock(&data->dead);
+	}
 }
 
 long int	what_time(long int time_z)
@@ -44,7 +46,7 @@ long int	what_time(long int time_z)
 	long int	time;
 	long int	time_n;
 
-	time = ft_time();
+	time = get_time();
 	time_n = time - time_z;
 	return (time_n);
 }

@@ -6,13 +6,13 @@
 /*   By: nminotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:01:16 by nminotte          #+#    #+#             */
-/*   Updated: 2023/05/11 22:19:17 by nminotte         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:59:22 by nminotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/philo.h"
+#include "../include/philo.h"
 
-int	error_not_number(int argc, char **argv)
+static int	error_not_number(char **argv)
 {
 	int	i;
 	int	j;
@@ -43,19 +43,19 @@ int	ft_philo_arg(int argc, char **argv, t_data_init *data)
 	{
 		data->must_eat_time = ft_atoi(argv[5]);
 		if (data->must_eat_time < 1
-			|| data->must_eat_time > 200)
+			|| data->must_eat_time > 2147483647)
 		{
-			ft_putendl_fd("can you put a positive value more than 0", 2);
+			ft_putendl_fd("The last arg need to be between 0 and max int.", 2);
 			return (0);
 		}
 	}
 	if (data->nbr_philos < 1 || data->time_die < 1 || data->time_eat < 1
-		|| data->time_sleep < 1 || data->nbr_philos > 200
+		|| data->time_sleep < 1 || data->nbr_philos > 250
 		|| data->time_die > 2147483647 || data->time_eat > 2147483647
 		|| data->time_sleep > 2147483647)
 	{
-		ft_putendl_fd("can you put a positive value up to 0"
-			" and less than 2147483647 and less than 200 for the 1st arg", 2);
+		ft_putendl_fd("can you put a positive value up to 0 and less"
+			" than 2147483647 and less than 250 for the 1st arg\n", 2);
 		return (0);
 	}
 	return (1);
@@ -68,9 +68,9 @@ int	parsing(int argc, char **argv, t_data_init *data)
 		print_arg_error();
 		return (1);
 	}
-	if (error_not_number(argc, argv) != 0)
+	if (error_not_number(argv) != 0)
 	{
-		printf("write all your argument in decimal up than 0");
+		printf("write all your argument in decimal up than 0\n");
 		return (1);
 	}
 	if (ft_philo_arg(argc, argv, data) == 0)
